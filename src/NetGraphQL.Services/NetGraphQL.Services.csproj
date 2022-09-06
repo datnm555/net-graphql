@@ -7,23 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Commons\**" />
-      <Compile Remove="Exceptions\**" />
-      <Compile Remove="Profiles\**" />
-      <EmbeddedResource Remove="Commons\**" />
-      <EmbeddedResource Remove="Exceptions\**" />
-      <EmbeddedResource Remove="Profiles\**" />
-      <None Remove="Commons\**" />
-      <None Remove="Exceptions\**" />
-      <None Remove="Profiles\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\NetGraphQL.Domain\NetGraphQL.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="GraphQL" Version="7.0.2" />
       <PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.2.2" />
+      <PackageReference Include="GraphQL.Server.Ui.Playground" Version="7.1.0" />
+      <PackageReference Include="GraphQL.SystemTextJson" Version="7.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\NetGraphQL.DataAccess\NetGraphQL.DataAccess.csproj" />
+      <ProjectReference Include="..\NetGraphQL.Domain\NetGraphQL.Domain.csproj" />
     </ItemGroup>
 
 </Project>

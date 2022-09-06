@@ -1,26 +1,40 @@
+using NetGraphQL.DataAccess.Repositories.Interfaces;
 using NetGraphQL.Domain.Entities;
 
 namespace NetGraphQL.Services.Implements;
 
 public class ProductService : IProductService
 {
-    public async Task<List<Product>> GetProducts()
+    private readonly IProductRepository _productRepository;
+
+    public ProductService(IProductRepository productRepository)
     {
-        return new List<Product>();
+        _productRepository = productRepository;
     }
 
-    public async Task<Product> GetProductById(int Id)
+    public async Task<List<Product>> GetProducts()
     {
-        throw new NotImplementedException();
+        var products = await _productRepository.GetAllAsync();
+        return products.ToList();
+    }
+
+    public async Task<Product> GetProductById(int id)
+    {
+        return await _productRepository.GetByIdAsync(id);
     }
 
     public async Task<Product> CreateProduct(Product product)
     {
-        return new Product();
+        await _productRepository.AddAsync(product);
+        return product;
     }
 
     public async Task<Product> UpdateProduct(int id, Product product)
     {
-        return new Product();
+        var productUpdate = await _productRepository.GetByIdAsync(id);
+        productUpdate.Name = product.Name;
+        productUpdate.Price = product.Price;
+        await _productRepository.UpdateAsync(productUpdate);
+        return productUpdate;
     }
 }
