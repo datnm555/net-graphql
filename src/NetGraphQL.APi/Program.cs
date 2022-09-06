@@ -1,3 +1,7 @@
+using GraphiQl;
+using GraphQL.Types;
+using NetGraphQL.Domain.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,9 +22,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
+    app.UseGraphiQl("/graphql");
 }
+
+app.UseHttpsRedirection();
+
+//app.UseGraphiQl("/graphql");
+//app.UseGraphQL<ISchema>();
 
 app.UseAuthorization();
 
