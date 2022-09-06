@@ -7,11 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="GraphQL.SystemTextJson" Version="7.0.2" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\NetGraphQL.Domain\NetGraphQL.Domain.csproj" />
     </ItemGroup>
 

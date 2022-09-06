@@ -1,139 +1,135 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NetGraphQL.Domain.Context;
+﻿namespace NetGraphQL.DataAccess.Repositories.Implements;
 
-namespace NetGraphQL.DataAccess.Repositories.Implements
+public class GenericRepository<T> : IDisposable, IGenericRepository<T> where T : class
 {
-    public class GenericRepository<T> : IDisposable, IGenericRepository<T> where T : class
+    private readonly AppDbContext _dbContext;
+    protected DbSet<T> DbSet;
+
+
+    public GenericRepository(AppDbContext dbContext)
     {
-        private readonly AppDbContext _dbContext;
-        protected DbSet<T> DbSet;
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        DbSet = _dbContext.Set<T>();
+    }
 
+    public IQueryable<T> Find(Expression<Func<T, bool>>? filter, bool tracking = true)
+    {
+        var query = DbSet.AsQueryable();
 
-        public GenericRepository(AppDbContext dbContext)
+        if (!tracking)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            DbSet = _dbContext.Set<T>();
+            query = query.AsNoTracking();
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>>? filter, bool tracking = true)
+        if (filter != null)
         {
-            var query = DbSet.AsQueryable();
+            query = query.Where(filter);
+        }
 
-            if (!tracking)
+        return query;
+    }
+
+    public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>>? filter, bool tracking = true)
+    {
+        var query = DbSet.AsQueryable();
+
+        if (!tracking)
+        {
+            query = query.AsNoTracking();
+        }
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>>? filter, bool tracking = true)
+    {
+        var query = DbSet.AsQueryable();
+
+        if (!tracking)
+        {
+            query = query.AsNoTracking();
+        }
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        return await query.SingleOrDefaultAsync() ?? throw new InvalidOperationException();
+    }
+
+    public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null,
+        string includeProperties = "")
+    {
+        IQueryable<T> query = DbSet;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        query = includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<T> GetByIdAsync(int id)
+    {
+        return await DbSet.FindAsync(id);
+    }
+
+    public async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await DbSet.ToListAsync();
+    }
+
+    public async Task<T> AddAsync(T entity)
+    {
+        await DbSet.AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
+
+        return entity;
+    }
+
+    public async Task<T> UpdateAsync(T entity)
+    {
+        DbSet.Attach(entity);
+        _dbContext.Entry(entity).State = EntityState.Modified;
+        await _dbContext.SaveChangesAsync();
+        return entity;
+    }
+
+    public async Task DeleteAsync(T entity)
+    {
+        DbSet.Remove(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+
+    private bool _disposed = false;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!this._disposed)
+        {
+            if (disposing)
             {
-                query = query.AsNoTracking();
+                _dbContext.Dispose();
             }
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            return query;
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>>? filter, bool tracking = true)
-        {
-            var query = DbSet.AsQueryable();
+        this._disposed = true;
+    }
 
-            if (!tracking)
-            {
-                query = query.AsNoTracking();
-            }
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            return await query.FirstOrDefaultAsync();
-        }
-
-        public async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>>? filter, bool tracking = true)
-        {
-            var query = DbSet.AsQueryable();
-
-            if (!tracking)
-            {
-                query = query.AsNoTracking();
-            }
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            return await query.SingleOrDefaultAsync() ?? throw new InvalidOperationException();
-        }
-
-        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null,
-            string includeProperties = "")
-        {
-            IQueryable<T> query = DbSet;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            query = includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-
-            return await query.ToListAsync();
-        }
-
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await DbSet.FindAsync(id);
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await DbSet.ToListAsync();
-        }
-
-        public async Task<T> AddAsync(T entity)
-        {
-            await DbSet.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
-
-            return entity;
-        }
-
-        public async Task<T> UpdateAsync(T entity)
-        {
-            DbSet.Attach(entity);
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task DeleteAsync(T entity)
-        {
-            DbSet.Remove(entity);
-            await _dbContext.SaveChangesAsync();
-        }
-
-
-        private bool _disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    _dbContext.Dispose();
-                }
-            }
-
-            this._disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }
