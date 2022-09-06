@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using NetGraphQL.Domain.Context;
-
-namespace NetGraphQL.Domain
+﻿namespace NetGraphQL.Domain
 {
     public static class DomainRegistration
     {

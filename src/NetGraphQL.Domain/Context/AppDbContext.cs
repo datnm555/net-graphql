@@ -1,5 +1,3 @@
-using NetGraphQL.Domain.Entities;
-
 namespace NetGraphQL.Domain.Context;
 
 public class AppDbContext : DbContext
