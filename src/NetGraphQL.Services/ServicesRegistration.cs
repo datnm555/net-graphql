@@ -19,9 +19,9 @@ namespace NetGraphQL.Services
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
 
-            services.AddSingleton<ProductType>();
-            services.AddSingleton<ProductQuery>();
-            services.AddSingleton<ISchema, ProductSchema>();
+            //services.AddSingleton<ProductType>();
+            //services.AddSingleton<ProductQuery>();
+            //services.AddSingleton<ISchema, ProductSchema>();
 
          
             return services;

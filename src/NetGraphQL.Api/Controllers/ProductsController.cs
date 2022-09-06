@@ -17,19 +17,19 @@ public class ProductsController : ControllerBase
         return Ok(await _productService.GetProducts());
     }
 
-    [HttpGet("/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetProductById(int id)
     {
         return Ok(await _productService.GetProductById(id));
     }
 
-    [HttpPut]
+    [HttpPut("update-product/{id}")]
     public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product product)
     {
         return Ok(await _productService.UpdateProduct(id, product));
     }
 
-    [HttpPost]
+    [HttpPost("create-product")]
     public async Task<IActionResult> CreateProduct([FromBody] Product product)
     {
         return Ok(await _productService.CreateProduct(product));
