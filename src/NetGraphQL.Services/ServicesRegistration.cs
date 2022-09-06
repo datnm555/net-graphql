@@ -10,18 +10,15 @@ namespace NetGraphQL.Services
     {
         public static IServiceCollection AddServiceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IOrderService, OrderService>();
-
+        
 
             services.AddSingleton<ProductType>();
             services.AddSingleton<ProductQuery>();
             services.AddSingleton<ISchema, ProductSchema>();
 
-            services.AddGraphQL(ops =>
-            {
-                ops.EnableMetrics = false;
-            });
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
+
             return services;
         }
     }

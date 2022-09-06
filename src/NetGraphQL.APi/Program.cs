@@ -9,6 +9,11 @@ builder.Services.AddDomainServices(builder.Configuration);
 builder.Services.AddDataAccessServices(builder.Configuration);
 builder.Services.AddServiceServices(builder.Configuration);
 
+builder.Services.AddGraphQL(ops =>
+{
+    ops.EnableMetrics = false;
+});
+
 builder.Services.AddControllers();
 
 //(o =>o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -26,7 +31,8 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI();
     app.UseGraphiQl("/graphql");
 }
-
+app.UseGraphiQl("/graphql");
+app.UseGraphQL<ISchema>();
 app.UseHttpsRedirection();
 
 //app.UseGraphiQl("/graphql");
