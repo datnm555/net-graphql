@@ -1,6 +1,8 @@
+using NetGraphQL.Domain.Entities;
+
 namespace NetGraphQL.DataAccess.Repositories.Interfaces;
 
-public interface IProductRepository
+public interface IProductRepository : IGenericRepository<Product>
 {
-    
+
 }

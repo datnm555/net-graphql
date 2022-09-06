@@ -8,11 +8,24 @@
 
     <ItemGroup>
         <PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.2.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Controllers\Cms" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\NetGraphQL.Domain\NetGraphQL.Domain.csproj" />
+      <ProjectReference Include="..\NetGraphQL.Services\NetGraphQL.Services.csproj" />
     </ItemGroup>
 
 </Project>

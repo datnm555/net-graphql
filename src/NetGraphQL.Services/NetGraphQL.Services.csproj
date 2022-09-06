@@ -7,9 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Commons" />
-      <Folder Include="Exceptions" />
-      <Folder Include="Profiles" />
+      <Compile Remove="Commons\**" />
+      <Compile Remove="Exceptions\**" />
+      <Compile Remove="Profiles\**" />
+      <EmbeddedResource Remove="Commons\**" />
+      <EmbeddedResource Remove="Exceptions\**" />
+      <EmbeddedResource Remove="Profiles\**" />
+      <None Remove="Commons\**" />
+      <None Remove="Exceptions\**" />
+      <None Remove="Profiles\**" />
     </ItemGroup>
 
     <ItemGroup>
