@@ -9,6 +9,11 @@ public class ProductService : IProductService
         return new List<Product>();
     }
 
+    public async Task<Product> GetProductById(int Id)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Product> CreateProduct(Product product)
     {
         return new Product();
