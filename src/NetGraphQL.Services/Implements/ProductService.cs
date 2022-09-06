@@ -1,6 +1,3 @@
-using NetGraphQL.DataAccess.Repositories.Interfaces;
-using NetGraphQL.Domain.Entities;
-
 namespace NetGraphQL.Services.Implements;
 
 public class ProductService : IProductService

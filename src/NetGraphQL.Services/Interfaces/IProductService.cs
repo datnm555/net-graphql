@@ -1,5 +1,3 @@
-using NetGraphQL.Domain.Entities;
-
 namespace NetGraphQL.Services.Interfaces;
 
 public interface IProductService
