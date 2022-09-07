@@ -5,8 +5,13 @@ namespace NetGraphQL.Services.GraphQL.Schemas.Product;
 
 public class ProductSchema : Schema
 {
-    public ProductSchema(ProductQuery productQuery)
+    public ProductSchema(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        Query = productQuery;
+        Query = serviceProvider.GetRequiredService<ProductQuery>();
     }
+
+    //public ProductSchema(ProductQuery productQuery)
+    //{
+    //    Query = productQuery;
+    //}
 }

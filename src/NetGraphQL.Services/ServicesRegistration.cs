@@ -1,4 +1,5 @@
-﻿using GraphQL.Server;
+﻿using GraphQL;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using NetGraphQL.Services.GraphQL.Queries.Product;
 using NetGraphQL.Services.GraphQL.Schemas.Product;
@@ -10,14 +11,19 @@ namespace NetGraphQL.Services
     {
         public static IServiceCollection AddServiceServices(this IServiceCollection services, IConfiguration configuration)
         {
-        
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddSingleton<ProductType>();
             services.AddSingleton<ProductQuery>();
             services.AddSingleton<ISchema, ProductSchema>();
+            services.AddGraphQL(ops =>
+            {
+                ops.AddSystemTextJson();
+            });
 
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IOrderService, OrderService>();
+      
+         
 
             return services;
         }
