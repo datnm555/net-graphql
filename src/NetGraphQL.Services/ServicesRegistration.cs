@@ -11,12 +11,14 @@ namespace NetGraphQL.Services
     {
         public static IServiceCollection AddServiceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IOrderService, OrderService>();
+            services.AddTransient<IServiceProvider>(provider => new FuncServiceProvider(provider.GetRequiredService));
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IOrderService, OrderService>();
 
-            services.AddSingleton<ProductType>();
-            services.AddSingleton<ProductQuery>();
-            services.AddSingleton<ISchema, ProductSchema>();
+            services.AddTransient<ProductType>();
+            services.AddTransient<ProductQuery>();
+            services.AddTransient<ISchema, ProductSchema>();
+
             services.AddGraphQL(ops =>
             {
                 ops.AddSystemTextJson();

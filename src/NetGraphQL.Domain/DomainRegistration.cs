@@ -6,7 +6,7 @@ namespace NetGraphQL.Domain
     {
         public static IServiceCollection AddDomainServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(opts =>
+            services.AddDbContextPool<AppDbContext>(opts =>
             {
                 opts.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });

@@ -1,20 +1,13 @@
 using GraphiQl;
-using GraphQL;
-using GraphQL.MicrosoftDI;
 using GraphQL.Types;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using NetGraphQL.Domain.Context;
-using NetGraphQL.Services.GraphQL.Queries.Product;
-using NetGraphQL.Services.GraphQL.Schemas.Product;
-using NetGraphQL.Services.GraphQL.Types.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services to the container.
-builder.Services.AddDomainServices(builder.Configuration);
 builder.Services.AddDataAccessServices(builder.Configuration);
 builder.Services.AddServiceServices(builder.Configuration);
+builder.Services.AddDomainServices(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -24,23 +17,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.Configure<KestrelServerOptions>(options =>
-{
-    options.AllowSynchronousIO = true;
-});
+//builder.Services.Configure<KestrelServerOptions>(options =>
+//{
+//    options.AllowSynchronousIO = true;
+//});
 
-builder.Services.Configure<IISServerOptions>(options =>
-{
-    options.AllowSynchronousIO = true;
-});
+//builder.Services.Configure<IISServerOptions>(options =>
+//{
+//    options.AllowSynchronousIO = true;
+//});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseGraphiQl("/graphql");
+    app.UseGraphQL<ISchema>();
+
 }
 
 app.UseGraphiQl("/graphql");
