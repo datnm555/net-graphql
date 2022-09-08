@@ -16,9 +16,6 @@ builder.Services.AddDomainServices(builder.Configuration);
 builder.Services.AddDataAccessServices(builder.Configuration);
 builder.Services.AddServiceServices(builder.Configuration);
 
-
-
-
 builder.Services.AddControllers();
 
 //(o =>o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
