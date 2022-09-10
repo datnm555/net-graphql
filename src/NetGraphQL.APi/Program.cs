@@ -1,7 +1,3 @@
-using GraphiQl;
-using GraphQL.Types;
-using NetGraphQL.Domain.Context;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

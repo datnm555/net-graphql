@@ -1,6 +1,4 @@
-﻿using GraphQL;
-
-namespace NetGraphQL.Domain
+﻿namespace NetGraphQL.Domain
 {
     public static class DomainRegistration
     {
