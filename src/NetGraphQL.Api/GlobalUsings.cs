@@ -1,5 +1,7 @@
 // Global using directives
 
+global using GraphiQl;
+global using GraphQL.Types;
 global using Microsoft.AspNetCore.Mvc;
 global using NetGraphQL.DataAccess;
 global using NetGraphQL.Domain;
