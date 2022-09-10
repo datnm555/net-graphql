@@ -8,6 +8,9 @@ public class Order
     }
 
     public int Id { get; set; }
+
+    public  int CustomerId { get; set; }
+
     public ICollection<OrderDetail> OrderDetails { get; set; }
 
 }

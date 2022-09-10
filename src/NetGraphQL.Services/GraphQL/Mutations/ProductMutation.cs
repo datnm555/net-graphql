@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetGraphQL.Services.GraphQL.Mutations.Product
+namespace NetGraphQL.Services.GraphQL.Mutations
 {
     public class ProductMutation
     {

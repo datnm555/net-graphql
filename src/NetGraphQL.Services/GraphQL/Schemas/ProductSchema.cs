@@ -1,7 +1,7 @@
 ﻿using GraphQL.Types;
-using NetGraphQL.Services.GraphQL.Queries.Product;
+using NetGraphQL.Services.GraphQL.Queries;
 
-namespace NetGraphQL.Services.GraphQL.Schemas.Product;
+namespace NetGraphQL.Services.GraphQL.Schemas;
 
 public class ProductSchema : Schema
 {

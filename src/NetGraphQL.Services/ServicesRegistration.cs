@@ -1,8 +1,8 @@
 ﻿using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
-using NetGraphQL.Services.GraphQL.Queries.Product;
-using NetGraphQL.Services.GraphQL.Schemas.Product;
+using NetGraphQL.Services.GraphQL.Queries;
+using NetGraphQL.Services.GraphQL.Schemas;
 using NetGraphQL.Services.GraphQL.Types.Product;
 
 namespace NetGraphQL.Services
