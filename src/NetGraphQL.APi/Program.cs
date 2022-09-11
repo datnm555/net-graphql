@@ -43,9 +43,6 @@ app.UseGraphQL<ISchema>();
 
 app.UseHttpsRedirection();
 
-//app.UseGraphiQl("/graphql");
-//app.UseGraphQL<ISchema>();
-
 app.UseAuthorization();
 
 app.MapControllers();

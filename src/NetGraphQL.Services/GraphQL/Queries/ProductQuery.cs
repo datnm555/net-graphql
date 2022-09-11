@@ -1,7 +1,4 @@
 ﻿using System.Formats.Asn1;
-using GraphQL;
-using GraphQL.Types;
-using NetGraphQL.Services.GraphQL.Types.Product;
 
 namespace NetGraphQL.Services.GraphQL.Queries;
 
