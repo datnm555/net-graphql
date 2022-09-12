@@ -39,11 +39,11 @@ namespace NetGraphQL.Domain.Migrations
 
             modelBuilder.Entity("NetGraphQL.Domain.Entities.OrderDetail", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderDetailId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"), 1L, 1);
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -51,11 +51,12 @@ namespace NetGraphQL.Domain.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("OrderDetailId");
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("OrderDetails");
                 });
@@ -89,8 +90,8 @@ namespace NetGraphQL.Domain.Migrations
                         .IsRequired();
 
                     b.HasOne("NetGraphQL.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                        .WithOne("OrderDetail")
+                        .HasForeignKey("NetGraphQL.Domain.Entities.OrderDetail", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -102,6 +103,12 @@ namespace NetGraphQL.Domain.Migrations
             modelBuilder.Entity("NetGraphQL.Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("NetGraphQL.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("OrderDetail")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

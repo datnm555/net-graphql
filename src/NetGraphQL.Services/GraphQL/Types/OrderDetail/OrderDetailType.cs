@@ -4,7 +4,6 @@
     {
         public OrderDetailType()
         {
-            Field(p => p.Id);
             Field(p => p.OrderId);
             Field(p => p.ProductId);
             Field(p => p.Product);

@@ -33,9 +33,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
     app.UseGraphiQl("/graphql");
     app.UseGraphQL<ISchema>();
-
 }
 
 app.UseGraphiQl("/graphql");

@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using NetGraphQL.Services.Models.Order;
 
 namespace NetGraphQL.Services.Implements;
 
 public class OrderService : IOrderService
 {
-    private  readonly  IOrderRepository _orderRepository;
+    private readonly IOrderRepository _orderRepository;
 
     public OrderService(IOrderRepository orderRepository)
     {
@@ -19,7 +20,7 @@ public class OrderService : IOrderService
 
     public async Task<Order> GetOrderById(int id)
     {
-        return await _orderRepository.Find(x=>x.Id == id).Include(x=>x.OrderDetails).FirstOrDefaultAsync();
+        return await _orderRepository.Find(x => x.Id == id).Include(x => x.OrderDetails).FirstOrDefaultAsync();
     }
 
     public async Task<Order> UpdateOrder(int id, Order order)
@@ -29,8 +30,15 @@ public class OrderService : IOrderService
         return orderUpdate;
     }
 
-    public async Task<Order> CreateOrder(Order order)
+    public async Task<Order> CreateOrder(OrderRequest orderRequest)
     {
+        if (orderRequest == null)
+            throw new ArgumentNullException(nameof(orderRequest));
+
+        var order = new Order();
+        order.CustomerId = orderRequest.CustomerId;
+        order.OrderDetails = new List<OrderDetail>();
+        //order.OrderDetails.
         await _orderRepository.AddAsync(order);
 
         return order;

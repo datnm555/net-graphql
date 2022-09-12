@@ -1,4 +1,6 @@
-﻿namespace NetGraphQL.Api.Controllers;
+﻿using NetGraphQL.Services.Models.Order;
+
+namespace NetGraphQL.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -30,8 +32,8 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost("create-order")]
-    public async Task<IActionResult> CreateOrder([FromBody] Order order)
+    public async Task<IActionResult> CreateOrder([FromBody] OrderRequest request)
     {
-        return Ok(await _orderService.CreateOrder(order));
+        return Ok(await _orderService.CreateOrder(request));
     }
 }

@@ -11,6 +11,6 @@ public class Order
 
     public  int CustomerId { get; set; }
 
-    public ICollection<OrderDetail> OrderDetails { get; set; }
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
 }

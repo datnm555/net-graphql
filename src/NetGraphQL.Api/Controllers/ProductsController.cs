@@ -1,4 +1,6 @@
-﻿namespace NetGraphQL.Api.Controllers;
+﻿using NetGraphQL.Services.Models.Product;
+
+namespace NetGraphQL.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -24,14 +26,14 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("update-product/{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product product)
+    public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductRequest productRequest)
     {
-        return Ok(await _productService.UpdateProduct(id, product));
+        return Ok(await _productService.UpdateProduct(id, productRequest));
     }
 
     [HttpPost("create-product")]
-    public async Task<IActionResult> CreateProduct([FromBody] Product product)
+    public async Task<IActionResult> CreateProduct([FromBody] ProductRequest productRequest)
     {
-        return Ok(await _productService.CreateProduct(product));
+        return Ok(await _productService.CreateProduct(productRequest));
     }
 }

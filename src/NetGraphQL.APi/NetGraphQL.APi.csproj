@@ -33,4 +33,6 @@
 		<ProjectReference Include="..\NetGraphQL.Services\NetGraphQL.Services.csproj" />
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/backportrc.json" /></VisualStudio></ProjectExtensions>
+
 </Project>
