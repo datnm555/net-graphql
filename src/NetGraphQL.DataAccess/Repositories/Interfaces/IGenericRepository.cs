@@ -18,5 +18,8 @@ public interface IGenericRepository<T> where T : class
 
     Task<T> UpdateAsync(T entity);
 
+    Task SaveChangeAsync();
+
+
     Task DeleteAsync(T entity);
 }

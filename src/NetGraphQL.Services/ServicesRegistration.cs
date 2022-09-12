@@ -1,5 +1,6 @@
 ﻿using GraphQL.MicrosoftDI;
 using NetGraphQL.Services.GraphQL.Schemas;
+using NetGraphQL.Services.GraphQL.Types.OrderDetail;
 
 namespace NetGraphQL.Services
 {
@@ -9,9 +10,11 @@ namespace NetGraphQL.Services
         {
             services.AddTransient<IServiceProvider>(provider => new FuncServiceProvider(provider.GetRequiredService));
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IOrderDetailService, OrderDetailService>();
             services.AddTransient<IOrderService, OrderService>();
 
             services.AddTransient<ProductType>();
+            services.AddTransient<OrderDetailType>();
             services.AddTransient<OrderType>();
             services.AddTransient<ProductQuery>();
             services.AddTransient<OrderQuery>();

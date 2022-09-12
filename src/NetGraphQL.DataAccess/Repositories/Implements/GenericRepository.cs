@@ -92,7 +92,6 @@ public class GenericRepository<T> : IDisposable, IGenericRepository<T> where T :
     public async Task<T> AddAsync(T entity)
     {
         await DbSet.AddAsync(entity);
-        await _dbContext.SaveChangesAsync();
 
         return entity;
     }
@@ -101,8 +100,12 @@ public class GenericRepository<T> : IDisposable, IGenericRepository<T> where T :
     {
         DbSet.Attach(entity);
         _dbContext.Entry(entity).State = EntityState.Modified;
-        await _dbContext.SaveChangesAsync();
         return entity;
+    }
+
+    public async Task SaveChangeAsync()
+    {
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(T entity)

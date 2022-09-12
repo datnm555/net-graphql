@@ -26,14 +26,14 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPut("update-order/{id}")]
-    public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order)
+    public async Task<IActionResult> UpdateOrder(int id, [FromBody] OrderRequest orderRequest)
     {
-        return Ok(await _orderService.UpdateOrder(id, order));
+        return Ok(await _orderService.UpdateOrder(id, orderRequest));
     }
 
     [HttpPost("create-order")]
-    public async Task<IActionResult> CreateOrder([FromBody] OrderRequest request)
+    public async Task<IActionResult> CreateOrder([FromBody] OrderRequest orderRequest)
     {
-        return Ok(await _orderService.CreateOrder(request));
+        return Ok(await _orderService.CreateOrder(orderRequest));
     }
 }

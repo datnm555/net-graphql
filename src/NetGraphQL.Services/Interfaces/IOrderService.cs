@@ -6,6 +6,6 @@ public interface IOrderService
 {
     Task<List<Order>> GetOrders();
     Task<Order> GetOrderById(int id);
-    Task<Order> UpdateOrder(int id, Order product);
-    Task<Order> CreateOrder(OrderRequest request);
+    Task<Order> UpdateOrder(int id, OrderRequest orderRequest);
+    Task<Order> CreateOrder(OrderRequest orderRequest);
 }

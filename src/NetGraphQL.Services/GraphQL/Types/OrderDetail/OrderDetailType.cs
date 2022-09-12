@@ -2,11 +2,13 @@
 {
     internal class OrderDetailType : ObjectGraphType<Domain.Entities.OrderDetail>
     {
-        public OrderDetailType()
+        public OrderDetailType(IProductService productService)
         {
+            Field(p => p.OrderDetailId);
             Field(p => p.OrderId);
             Field(p => p.ProductId);
-            Field(p => p.Product);
+            FieldAsync<ProductType>("product",
+                resolve: async context => await productService.GetProductById(context.Source.ProductId));
             //Field(p => p.OrderDetails);
         }
     }

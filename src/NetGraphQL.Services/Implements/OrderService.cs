@@ -1,15 +1,19 @@
+using System.Security.AccessControl;
 using Microsoft.EntityFrameworkCore;
 using NetGraphQL.Services.Models.Order;
+using NetGraphQL.Services.Models.Product;
 
 namespace NetGraphQL.Services.Implements;
 
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository _orderRepository;
+    private readonly IOrderDetailRepository _orderDetailRepository;
 
-    public OrderService(IOrderRepository orderRepository)
+    public OrderService(IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
     {
         _orderRepository = orderRepository;
+        _orderDetailRepository = orderDetailRepository;
     }
 
     public async Task<List<Order>> GetOrders()
@@ -20,12 +24,27 @@ public class OrderService : IOrderService
 
     public async Task<Order> GetOrderById(int id)
     {
-        return await _orderRepository.Find(x => x.Id == id).Include(x => x.OrderDetails).FirstOrDefaultAsync();
+        //var order = await _orderRepository.Find(x => x.Id == id).Include(x => x.OrderDetails).FirstOrDefaultAsync();
+
+        //var orderDetails = await _orderDetailRepository.Find(x => x.OrderId == order.Id).Include(x => x.Product)
+        //    .ToListAsync();
+
+        //order.OrderDetails = orderDetails;
+        var order = await _orderRepository.GetByIdAsync(id);
+        return order;
     }
 
-    public async Task<Order> UpdateOrder(int id, Order order)
+    public async Task<Order> UpdateOrder(int id, OrderRequest orderRequest)
     {
+
+        if (id == 0)
+            throw new ArgumentNullException(nameof(id));
+        if (orderRequest == null)
+            throw new ArgumentNullException(nameof(orderRequest));
+
         var orderUpdate = await _orderRepository.GetByIdAsync(id);
+        //orderUpdate.CustomerId = orderRequest.CustomerId;
+
         await _orderRepository.UpdateAsync(orderUpdate);
         return orderUpdate;
     }
@@ -35,12 +54,22 @@ public class OrderService : IOrderService
         if (orderRequest == null)
             throw new ArgumentNullException(nameof(orderRequest));
 
-        var order = new Order();
-        order.CustomerId = orderRequest.CustomerId;
-        order.OrderDetails = new List<OrderDetail>();
+        var orderCreate = new Order();
+        orderCreate.CustomerId = orderRequest.CustomerId;
         //order.OrderDetails.
-        await _orderRepository.AddAsync(order);
+        await _orderRepository.AddAsync(orderCreate);
 
-        return order;
+        orderCreate.OrderDetails = new List<OrderDetail>();
+        foreach (var item in orderRequest.OrderDetails)
+        {
+            orderCreate.OrderDetails.Add(new OrderDetail()
+            {
+                OrderId = orderCreate.Id,
+                ProductId = item.ProductId
+            });
+        }
+        await _orderRepository.SaveChangeAsync();
+
+        return orderCreate;
     }
 }
