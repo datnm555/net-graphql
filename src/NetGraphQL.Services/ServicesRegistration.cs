@@ -24,9 +24,6 @@ namespace NetGraphQL.Services
                 ops.AddSystemTextJson();
             });
 
-      
-         
-
             return services;
         }
     }
